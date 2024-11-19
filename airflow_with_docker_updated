@@ -1,0 +1,95 @@
+#-----------(1) Running Airflow in Docker containers -------------------
+after installing doucker desktop
+
+use the command:
+in your terminal write:
+docker pull apache/airflow
+
+
+# more options
+https://hub.docker.com/r/apache/airflow/tags
+
+
+#reference for the installation and more details:
+https://hub.docker.com/r/apache/airflow
+
+
+To install Apache Airflow in Docker, follow these steps:
+
+Prerequisites:
+
+1- Docker installed on your system (ensure version 1.27.0 or newer)
+2- Docker Compose installed on your system (ensure version 1.27.0 or newer)
+Fetch the Docker Compose file:
+Run the following command to 
+
+#--------------download the official Airflow Docker Compose file:-------------
+
+>curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.0.2/docker-compose.yaml'
+
+#------------------------------------------------------------
+
+#--------------Create the necessary directories:------------------------
+Create three folders in the same directory as your docker-compose.yaml file:
+dags (for storing DAGs)
+logs (for storing logs)
+plugins (for storing custom plugins)
+
+>ls
+>mkdir dags logs plugins
+
+#----------------------------------------------
+#----------------start Airflow:-----------------
+Run the following command to start Airflow:
+
+>docker-compose up -d
+
+#----------------------------------------------
+#-----------Access the Airflow Web Interface:-----------------
+Open a web browser and navigate to http://localhost:8080
+
+
+Use the default credentials: 
+
+username: airflow, password: airflow
+#---------------------------------------
+
+
+
+#------------to opena terminal in docker to run commans ---------
+>docker exec -it airflow /bin/bash
+
+
+note:
+docker exec:execute a command in a running docker countainer
+-it: (interactive) keeps the standard input open, allowing you to interact with the container
+-t: (peseudo-TTY) allocates a pseudo-terminal, making the session behave like anormal terminal
+airflow:the name or the id of the running container
+       replace airflow with the actual container name or id 
+/bin/bash:specifies the command to run inside the container  
+         in this case it launches the bash shell, allowing you to interact with the container's file system
+		 and execute commands inside it
+
+#Running dags
+Place your custom DAGs or dependencies in the dags directory,
+ which is mounted to the Airflow container.
+
+------------------------ copy dags from local file to docker directory to run it----------
+> docker cp [source] [containerId]:[destination]
+example:
+> docker cp /home/omar_shaker/Downloads/listing_2_2.py 214c54df12ca:/opt/airflow/dags
+
+
+------------------------ list the docker images----------
+>docker images
+
+------------ to know the network of docker(inet)------------
+
+>ifconfig
+ output:may be look like [172.17.0.1]
+ 
+ 
+ 
+ ---------------docker version------
+ in your terminal:
+>docker -v
